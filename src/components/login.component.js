@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-// import forgotPassword from "./forgotpassword.component";
+import forgotPassword from "./forgotpassword.component";
 
 export default class Login extends Component {
     render() {
-        return (<Router>
+        return (
             <form>
                 <h3>Sign In</h3>
 
@@ -27,15 +27,14 @@ export default class Login extends Component {
                 </div>
 
                 <button type="submit" className="btn btn-primary btn-block">Submit</button>
-                <p className="forgot-password text-right">Forgot Password ?
-                    {/* <a><Link to={"/forgot-password"}>Forgot Password?</Link></a> */}
+                <p className="forgot-password text-right">
+                    <a><Link to={"/forgot-password"}>Forgot Password?</Link></a>
                 </p>
+                <Route path="/forgot-password" component={forgotPassword} />
 
-          {/* <Switch>
-            <Route path="/forgot-password" component={forgotPassword} />
-          </Switch> */}
             </form>
-            </Router>
+
+            
         );
     }
 }
