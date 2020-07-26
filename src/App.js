@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import Login from "./components/login.component";
 import SignUp from "./components/signup.component";
- import forgotPassword from "./components/forgotpassword.component";
+import forgotPassword from "./components/forgotpassword.component";
 
 function App() {
   return (<Router>
