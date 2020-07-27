@@ -34,7 +34,7 @@ export default class SignUp extends Component {
             case 'phone':
               errors.phone =
               val.length < 10 
-                ? 'Number must be at least 10 characters long!'
+                ? 'Number is not valid!'
                 : '';
               break;
 
@@ -76,8 +76,10 @@ export default class SignUp extends Component {
                     <label>Mobile number</label>
                     <PhoneInput country={'in'} className="form-control" id="phone"
                         name="phone" value={this.state.phone} onChange={(value, data, event) => {
-                            event.target.name= "phone"
-                            this.myChangeHandler(event)
+                            if(event.target){
+                                event.target.name= "phone"
+                                this.myChangeHandler(event)
+                            }
                         }} 
                     />
                      {errors.phone.length > 0 && 
