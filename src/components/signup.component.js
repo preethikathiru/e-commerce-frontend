@@ -107,7 +107,7 @@ export default class SignUp extends Component {
                     }
                 </div>
 
-                <button type="submit" value="submit" className="btn btn-primary btn-block" disabled={!isEnabled}>Sign Up</button>
+                <button type="submit" value="submit" className="btn btn-primary btn-block" disabled={!isEnabled}><a><Link to={"/user-details"}>Sign Up</Link></a></button>
                 <p className="forgot-password text-right">
                     Already registered <a><Link to={"/sign-in"}>sign in?</Link></a>
                 </p>
