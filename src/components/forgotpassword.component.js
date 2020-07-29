@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {Redirect} from 'react-router-dom';
 
 const validEmailRegex = RegExp(
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -17,11 +18,11 @@ export default class forgotPassword extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
-    myChangeHandler = (event) => {
-        let nam = event.target.name;
-        let val = event.target.value;
-        this.setState({[nam]: val});
-        let errors = this.state.errors;
+myChangeHandler = (event) => {
+    let nam = event.target.name;
+    let val = event.target.value;
+    this.setState({[nam]: val});
+    let errors = this.state.errors;
 
         switch (nam) {
            
@@ -44,11 +45,20 @@ export default class forgotPassword extends Component {
         console.log(this.state.email)
         event.preventDefault();
     }
+
+    handleOnClick = () => {
+        this.setState({redirect: true});
+      }
+   
     
     render() {
         const {errors} = this.state;
         const isEnabled = validEmailRegex.test(this.state.email); 
 
+        if (this.state.redirect) {
+            return <Redirect push to="/sign-in" />;
+          }
+    
         return (
             <form>
                 <h3>Forgot Password?</h3>
@@ -59,11 +69,12 @@ export default class forgotPassword extends Component {
                      name="email" value={this.state.email} onChange={this.myChangeHandler}
                     />
                     {errors.email.length > 0 && 
-                      <span className='error' style={{ color: "red", fontSize: "15px" }}>{errors.email}</span>
+                      <span className='error' style={{ color: "red", fontSize: "10px" }}>{errors.email}</span>
                     }
                 </div>
                 
-                <button type="submit" className="btn btn-primary btn-block" disabled={!isEnabled}>Send Password</button>
+                <button type="submit" className="btn btn-primary btn-block" disabled={!isEnabled}
+                 onClick={this.handleOnClick}>Send Password</button>
                 <p className="forgot-password text-right">
                     <a><Link to={"/sign-in"}>Go back to Login Page</Link></a>
                 </p>

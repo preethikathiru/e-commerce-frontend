@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {Redirect} from 'react-router-dom';
 
 const validateAlpha = RegExp(
     /^[A-Za-z]+$/
     );
 
-export default class Login extends Component {
+export default class UserDetails extends Component {
 
     constructor(props) {
         super(props);
@@ -28,31 +28,31 @@ export default class Login extends Component {
         this.setState({[nam]: val});
         let errors = this.state.errors;
 
-        switch (nam) {
-            case 'fname':
-                errors.fname =
-                validateAlpha.test(val) 
-                  ? ''
-                  : 'First name is invalid';  
-                break;
-
-            case 'lname':
-                    errors.lname =
+            switch (nam) {
+                case 'fname':
+                    errors.fname =
                     validateAlpha.test(val) 
-                      ? ''
-                      : 'Last name is invalid';  
+                    ? ''
+                    : 'First name should have only letters and at least 3 characters long!';  
                     break;
 
-            case 'address':
-                     errors.address =
-                     val.length < 25 
-                         ? 'Address must be at least 25 characters long!'
-                         : '';  
-                    break;                                                       
-              
-            default:
-              break;
-        }
+                case 'lname':
+                        errors.lname =
+                        validateAlpha.test(val) 
+                        ? ''
+                        : 'Last name should have only letters and at least 3 characters long!';  
+                        break;
+
+                case 'address':
+                        errors.address =
+                        val.length < 25 
+                            ? 'Address must be at least 25 characters long!'
+                            : '';  
+                        break;                                                       
+                
+                default:
+                break;
+            }
         this.setState({errors, [nam]: val});
 
     }
@@ -62,12 +62,22 @@ export default class Login extends Component {
         console.log(this.state.fname ,this.state.lname, this.state.address)
         event.preventDefault();
     }
-  
+      
+    handleOnClick = () => {
+        this.setState({redirect: true});
+      }
+      
    
     render() {
         const {errors} = this.state;
-        return (
-            <form onSubmit={this.handleSubmit}>
+        const isEnabled = this.state.fname.length >= 3 && this.state.lname.length >= 3 && this.state.address.length >= 25; 
+
+    if (this.state.redirect) {
+        return <Redirect push to="/home-page" />;
+    }
+
+    return (
+            <form onSubmit={this.handleSubmit} action="/home-page">
                 <h3>User Details</h3>
 
                 <div className="form-group">
@@ -76,7 +86,7 @@ export default class Login extends Component {
                      value={this.state.fname} onChange={this.myChangeHandler} 
                     />
                     {errors.fname.length > 0 && 
-                      <span className='error' style={{ color: "red", fontSize: "15px" }}>{errors.fname}</span>
+                      <span className='error' style={{ color: "red", fontSize: "10px" }}>{errors.fname}</span>
                     }
                 </div>
 
@@ -86,22 +96,26 @@ export default class Login extends Component {
                      value={this.state.lname} onChange={this.myChangeHandler}
                     />
                     {errors.lname.length > 0 && 
-                      <span className='error' style={{ color: "red", fontSize: "15px" }}>{errors.lname}</span>
+                      <span className='error' style={{ color: "red", fontSize: "10px" }}>{errors.lname}</span>
                     }
                 </div>
                 <div className="form-group">
                     <label>Address</label>
-                    <textarea rows="3" cols="25" placeholder="Enter Address here" type="text" className="form-control"  name="address"
-                     value={this.state.address} onChange={this.myChangeHandler}
+                    <textarea rows="3" cols="25" placeholder="Enter Address here" type="text" className="form-control"  
+                    name="address" value={this.state.address} onChange={this.myChangeHandler}
                     />
                     {errors.address.length > 0 && 
-                      <span className='error' style={{ color: "red", fontSize: "15px" }}>{errors.address}</span>
+                      <span className='error' style={{ color: "red", fontSize: "10px" }}>{errors.address}</span>
                     }
                 </div>
 
                
-                <button type="submit" className="btn btn-primary btn-block">Submit</button>
-                
+                <button type="submit" className="btn btn-primary btn-block" disabled={!isEnabled}
+                onClick={this.handleOnClick}>Submit</button><br></br>
+
+                <button type="button" className="btn btn-primary" style={{backgroundColor:"gray", border:"gray", float:"inline-end"}} 
+                onClick={this.handleOnClick}>Skip</button>
+
             </form>
 
             

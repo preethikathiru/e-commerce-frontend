@@ -7,6 +7,9 @@ import Login from "./components/login.component";
 import SignUp from "./components/signup.component";
 import forgotPassword from "./components/forgotpassword.component";
 import UserDetails from "./components/userdetails.component";
+import HomePage from "./components/home.component";
+import OtpPage from "./components/otp.component";
+
 
 function App() {
   return (<Router>
@@ -35,6 +38,8 @@ function App() {
             <Route path="/sign-up" component={SignUp} />
             <Route path="/forgot-password" component={forgotPassword} />
             <Route path="/user-details" component={UserDetails} />
+            <Route path="/home-page" component={HomePage} />
+            <Route path="/otp-page" component={OtpPage} />
           </Switch>
         </div>
       </div>

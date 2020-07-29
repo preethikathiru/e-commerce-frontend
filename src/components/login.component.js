@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {Redirect} from 'react-router-dom';
 
-import forgotPassword from "./forgotpassword.component";
 
 const validEmailRegex = RegExp(
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -27,25 +27,25 @@ export default class Login extends Component {
         this.setState({[nam]: val});
         let errors = this.state.errors;
 
-        switch (nam) {
-           
-            case 'email': 
-              errors.email = 
-                validEmailRegex.test(val)
-                  ? ''
-                  : 'Email is not valid!';
-              break;
+            switch (nam) {
+            
+                case 'email': 
+                errors.email = 
+                    validEmailRegex.test(val)
+                    ? ''
+                    : 'Email is not valid!';
+                break;
 
-            case 'password': 
-              errors.password = 
-                val.length < 6
-                  ? 'Password must be at least 6 characters long!'
-                  : '';
-              break;
+                case 'password': 
+                errors.password = 
+                    val.length < 6
+                    ? 'Password must be at least 6 characters long!'
+                    : '';
+                break;
 
-            default:
-              break;
-        }
+                default:
+                break;
+            }
         this.setState({errors, [nam]: val});
 
     }
@@ -54,13 +54,21 @@ export default class Login extends Component {
         
         console.log(this.state.email , this.state.password)
         event.preventDefault();
-    }
-    
-   
+    }  
 
+    handleOnClick = () => {
+        this.setState({redirect: true});
+      }
+   
+ 
     render() {
         const {errors} = this.state;
-        const isEnabled = validEmailRegex.test(this.state.email)  && this.state.password.length > 6; 
+        const isEnabled = validEmailRegex.test(this.state.email)  && this.state.password.length >= 6; 
+
+        if (this.state.redirect) {
+            return <Redirect push to="/home-page" />;
+          }
+    
         return (
             <form onSubmit={this.handleSubmit}> 
                 <h3>Sign In</h3>
@@ -71,7 +79,7 @@ export default class Login extends Component {
                     name="email" value={this.state.email} onChange={this.myChangeHandler}
                     />
                     {errors.email.length > 0 && 
-                      <span className='error' style={{ color: "red", fontSize: "15px" }}>{errors.email}</span>
+                      <span className='error' style={{ color: "red", fontSize: "10px" }}>{errors.email}</span>
                     }
                 </div>
 
@@ -81,7 +89,7 @@ export default class Login extends Component {
                      name="password" value={this.state.password} onChange={this.myChangeHandler}
                     />
                     {errors.password.length > 0 && 
-                      <span className='error' style={{ color: "red", fontSize: "15px" }}>{errors.password}</span>
+                      <span className='error' style={{ color: "red", fontSize: "10px" }}>{errors.password}</span>
                     }
                 </div>
 
@@ -92,11 +100,12 @@ export default class Login extends Component {
                     </div>
                 </div>
 
-                <button type="submit" className="btn btn-primary btn-block" disabled={!isEnabled}>Submit</button>
+                <button type="submit" className="btn btn-primary btn-block" disabled={!isEnabled}
+                 onClick={this.handleOnClick }>Submit</button>
+
                 <p className="forgot-password text-right">
                     <a><Link to={"/forgot-password"}>Forgot Password?</Link></a>
                 </p>
-                <Route path="/forgot-password" component={forgotPassword} />
 
             </form>
 

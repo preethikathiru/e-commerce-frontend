@@ -8,7 +8,7 @@
     "react-dom": "^16.9.0",
     "react-phone-input-2": "^2.13.7",
     "react-phone-number-input": "^3.0.24",
-    "react-router-dom": "^5.1.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.1.2"
   },
   "scripts": {
